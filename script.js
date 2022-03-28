@@ -22,13 +22,14 @@ const fetchPokemon = (pokemon) => {
 const createDisplay = ({ name, image, id }) => {
   const section = document.createElement('section');
   section.className = 'pokemon';
-
+  const nameChange = `${name[0].toUpperCase()}${name.slice(1)}`;
+  
   const idParagraph = document.createElement('p');
   idParagraph.innerText = `#${id}`;
   const imageElement = document.createElement('img');
   imageElement.src = image;
   const idName = document.createElement('p');
-  idName.innerText = name;
+  idName.innerText = nameChange;
   
   section.appendChild(idParagraph);
   section.appendChild(imageElement);
@@ -41,12 +42,6 @@ const createDisplay = ({ name, image, id }) => {
 pokedexFirstGen.forEach(async (pokemon) => {
   const pokemonLower = pokemon.toLowerCase();
   const pokemonInfo = await fetchPokemon(pokemonLower);
-
-
   const sectionPokemon = createDisplay(pokemonInfo)
-
   pokedex.appendChild(sectionPokemon);
-  
-})
-
-
+});
