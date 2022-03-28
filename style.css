@@ -2,3 +2,21 @@
   margin: 0;
   padding: 0;
 }
+
+#pokedex {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 30px;
+}
+
+.pokemon {
+  border: solid 2px grey;
+  box-shadow: 2px 2px 4px gray;
+  border-radius: 10%;
+  background-color: #f1f1f1;
+  height: 160px;
+  width: 110px;
+  margin: 5px;
+  font-size: 20px;
+  text-align: center;
+}
