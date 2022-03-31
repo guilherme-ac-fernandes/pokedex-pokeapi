@@ -7,22 +7,35 @@ const pokedexFirstGen = ['Bulbasaur','Ivysaur','Venusaur','Charmander','Charmele
 
 // Função que busca as informaçõe na API
 const fetchPokemon = (pokemon) => {
-  const url = `https://pokeapi.co/api/v2/pokemon/${pokemon}`;
-  const pokemonInfo = fetch(url)
+  return fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon}`)
     .then((response) =>  response.json())
     .then((data) => {
       return {
         name: data.name,
         image: data.sprites.front_default,
         id: data.id,
-      }
+        type: data.types.map((element) => element.type.name),
+      };
     })
     .catch((error) => error);
-  return pokemonInfo;
+};
+
+// Função que cria elemento contendo os tipos do pokemon
+const typePokemon = (type) => {
+  const ulFather = document.createElement('ul');
+  ulFather.className = 'types';
+  type.forEach((element) => {
+    const div = document.createElement('li');
+    div.innerText = element;
+    div.classList.add('type-item');
+    div.classList.add(`${element}`);
+    ulFather.appendChild(div)
+  });
+  return ulFather;
 };
 
 // Função que criar display de cada pokemon
-const createDisplay = ({ name, image, id }) => {
+const createDisplay = ({ name, image, id, type }) => {
   const section = document.createElement('section');
   section.className = 'pokemon';
   const nameChange = `${name[0].toUpperCase()}${name.slice(1)}`;
@@ -35,10 +48,39 @@ const createDisplay = ({ name, image, id }) => {
   idSpan.innerText = id;
   imageElement.src = image;
   idName.innerText = nameChange;
+  // Adiciona tipo do pokemon
+  const typesLocation = typePokemon(type);
   // Adiciona no elemento pai
   section.appendChild(idSpan);
   section.appendChild(imageElement);
   section.appendChild(idName);
+  section.appendChild(typesLocation);
+  // Retorna o elemento
+  return section;
+};
+
+const createDisplayAfterButton = ({ name, image, id, type }) => {
+  const section = document.createElement('section');
+  section.className = 'pokemon';
+  const nameChange = `${name[0].toUpperCase()}${name.slice(1)}`;
+  // Criação dos elementos
+  const idSpan = document.createElement('span');
+  const imageElement = document.createElement('img');
+  const idName = document.createElement('p');
+  // Adição das informações
+  idSpan.className = 'hidden';
+  idSpan.innerText = id;
+  imageElement.src = image;
+  idName.innerText = nameChange;
+  // Adiciona tipo do pokemon
+  const ulFather = document.createElement('ul');
+  ulFather.className = 'types';
+  ulFather.innerHTML = type;
+  // Adiciona no elemento pai
+  section.appendChild(idSpan);
+  section.appendChild(imageElement);
+  section.appendChild(idName);
+  section.appendChild(ulFather);
   // Retorna o elemento
   return section;
 };
@@ -70,17 +112,19 @@ const nameSort = (event) => {
   const [...allNames] = document.querySelectorAll('.pokemon p');
   const [...allId] = document.querySelectorAll('.pokemon span');
   const [...allImage] = document.querySelectorAll('.pokemon img');
+  const [...allType] = document.querySelectorAll('.pokemon ul');
   const array = allNames.map((item, index) => {
     return {
       name: item.innerText,
       image: allImage[index].src,
       id: allId[index].innerText,
+      type: allType[index].innerHTML,
     }
   });
   pokedex.innerHTML = '';
   const arraySortByName = array.sort(sortFunction);
   arraySortByName.forEach((element) => {
-    const pokemon = createDisplay(element)
+    const pokemon = createDisplayAfterButton(element)
     pokedex.appendChild(pokemon);
   });
 };
@@ -91,17 +135,19 @@ const idSort = (event) => {
   const [...allNames] = document.querySelectorAll('.pokemon p');
   const [...allId] = document.querySelectorAll('.pokemon span');
   const [...allImage] = document.querySelectorAll('.pokemon img');
+  const [...allType] = document.querySelectorAll('.pokemon ul');
   const array = allNames.map((item, index) => {
     return {
       name: item.innerText,
       image: allImage[index].src,
       id: allId[index].innerText,
+      type: allType[index].innerHTML,
     }
   });
   pokedex.innerHTML = '';
   const arraySortById = array.sort((a, b) => a.id - b.id);
   arraySortById.forEach((element) => {
-    const pokemon = createDisplay(element)
+    const pokemon = createDisplayAfterButton(element)
     pokedex.appendChild(pokemon);
   });
 };
