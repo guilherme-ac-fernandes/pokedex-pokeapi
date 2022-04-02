@@ -22,13 +22,18 @@ const fetchPokemon = (pokemon) => {
     .catch((error) => error);
 };
 
+// Função para padronização de string (Começa com letra maiúscula)
+const stringChange = (name) => {
+  return `${name[0].toUpperCase()}${name.slice(1)}`;
+}
+
 // Função que cria elemento contendo os tipos do pokemon
 const typePokemon = (type) => {
   const ulFather = document.createElement('ul');
   ulFather.className = 'types';
   type.forEach((element) => {
     const div = document.createElement('li');
-    div.innerText = element;
+    div.innerText = stringChange(element);
     div.classList.add('type-item');
     div.classList.add(`${element}`);
     ulFather.appendChild(div)
@@ -40,7 +45,7 @@ const typePokemon = (type) => {
 const createDisplay = ({ name, image, id, type }) => {
   const section = document.createElement('section');
   section.className = 'pokemon';
-  const nameChange = `${name[0].toUpperCase()}${name.slice(1)}`;
+  const nameChange = stringChange(name);
   // Criação dos elementos
   const idSpan = document.createElement('span');
   const imageElement = document.createElement('img');
@@ -169,8 +174,8 @@ const typePokemonValue = () => {
 // Função que cria os tipos selecionar abaixo do select
 const createSelectItem = (typePokemon) => {
   const type = document.createElement('li');
-  type.innerText = typePokemon;
-  type.classList.add('type-item');
+  type.innerText = stringChange(typePokemon);
+  type.classList.add('type-ul');
   type.classList.add(`${typePokemon}`);
   selectUl.appendChild(type);
 };

@@ -25,7 +25,7 @@ h1 {
 #pokedex {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: flex-start;
   margin: 30px;
 }
 
@@ -78,18 +78,26 @@ button {
   justify-content: space-around;
 }
 
-.type-item {
-  padding: 3px 6px;
-  border-radius: 10px;
-  width: 45px;
-  margin-top: 10px;
-  list-style-type: none; 
-}
-
-.type-item-ul {
+#types-selected {
   display: flex;
   text-align: center;
   justify-content: space-evenly;
+}
+
+.type-item, .type-ul {
+  padding: 3px 6px;
+  border-radius: 10px;
+  list-style-type: none; 
+}
+
+.type-item {
+  margin-top: 10px;
+  width: 50px;
+}
+
+.type-ul {
+  margin-top: 5px;
+  width: 70px;
 }
 
 .fire {
