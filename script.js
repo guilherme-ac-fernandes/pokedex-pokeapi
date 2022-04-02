@@ -2,7 +2,9 @@
 const pokedex = document.querySelector('#pokedex');
 const nameButton = document.querySelector('#name-button');
 const idButton = document.querySelector('#id-button');
-const title = document.querySelector('#inicial');
+const homeButton = document.querySelector('#home');
+const selectType = document.querySelector('#type');
+const selectUl = document.querySelector('#types-selected');
 const pokedexFirstGen = ['Bulbasaur','Ivysaur','Venusaur','Charmander','Charmeleon','Charizard','Squirtle','Wartortle','Blastoise','Caterpie','Metapod','Butterfree','Weedle','Kakuna','Beedrill','Pidgey','Pidgeotto','Pidgeot','Rattata','Raticate','Spearow','Fearow','Ekans','Arbok','Pikachu','Raichu','Sandshrew','Sandslash','Nidoran-f','Nidorina','Nidoqueen','nidoran-m','Nidorino','Nidoking','Clefairy','Clefable','Vulpix','Ninetales','Jigglypuff','Wigglytuff','Zubat','Golbat','Oddish','Gloom','Vileplume','Paras','Parasect','Venonat','Venomoth','Diglett','Dugtrio','Meowth','Persian','Psyduck','Golduck','Mankey','Primeape','Growlithe','Arcanine','Poliwag','Poliwhirl','Poliwrath','Abra','Kadabra','Alakazam','Machop','Machoke','Machamp','Bellsprout','Weepinbell','Victreebel','Tentacool','Tentacruel','Geodude','Graveler','Golem','Ponyta','Rapidash','Slowpoke','Slowbro','Magnemite','Magneton','Farfetchd','Doduo','Dodrio','Seel','Dewgong','Grimer','Muk','Shellder','Cloyster','Gastly','Haunter','Gengar','Onix','Drowzee','Hypno','Krabby','Kingler','Voltorb','Electrode','Exeggcute','Exeggutor','Cubone','Marowak','Hitmonlee','Hitmonchan','Lickitung','Koffing','Weezing','Rhyhorn','Rhydon','Chansey','Tangela','Kangaskhan','Horsea','Seadra','Goldeen','Seaking','Staryu','Starmie','Scyther','Jynx','Electabuzz','Magmar','Pinsir','Tauros','Magikarp','Gyarados','Lapras','Ditto','Eevee','Vaporeon','Jolteon','Flareon','Porygon','Omanyte','Omastar','Kabuto','Kabutops','Aerodactyl','Snorlax','Articuno','Zapdos','Moltres','Dratini','Dragonair','Dragonite','Mewtwo','Mew', 'Mr-mime'];
 
 // Função que busca as informaçõe na API
@@ -93,7 +95,7 @@ const loadingPage = () => {
     const sectionPokemon = createDisplay(pokemonInfo);
     pokedex.appendChild(sectionPokemon);
   });
-}
+};
 
 // Proveniente da documentação
 // (link: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort)
@@ -106,9 +108,8 @@ const sortFunction = (a, b) => {
   return 0;
 };
 
-// Função que ordena por nome
-const nameSort = (event) => {
-  event.preventDefault();
+// Função que busca todas as informaões presente na página
+const getAllInfoFromPage = () => {
   const [...allNames] = document.querySelectorAll('.pokemon p');
   const [...allId] = document.querySelectorAll('.pokemon span');
   const [...allImage] = document.querySelectorAll('.pokemon img');
@@ -121,6 +122,13 @@ const nameSort = (event) => {
       type: allType[index].innerHTML,
     }
   });
+  return array;
+};
+
+// Função que ordena por nome
+const nameSort = (event) => {
+  event.preventDefault();
+  const array = getAllInfoFromPage();
   pokedex.innerHTML = '';
   const arraySortByName = array.sort(sortFunction);
   arraySortByName.forEach((element) => {
@@ -132,18 +140,7 @@ const nameSort = (event) => {
 // Função que ordena por id
 const idSort = (event) => {
   event.preventDefault();
-  const [...allNames] = document.querySelectorAll('.pokemon p');
-  const [...allId] = document.querySelectorAll('.pokemon span');
-  const [...allImage] = document.querySelectorAll('.pokemon img');
-  const [...allType] = document.querySelectorAll('.pokemon ul');
-  const array = allNames.map((item, index) => {
-    return {
-      name: item.innerText,
-      image: allImage[index].src,
-      id: allId[index].innerText,
-      type: allType[index].innerHTML,
-    }
-  });
+  const array = getAllInfoFromPage();
   pokedex.innerHTML = '';
   const arraySortById = array.sort((a, b) => a.id - b.id);
   arraySortById.forEach((element) => {
@@ -161,11 +158,43 @@ const inicialStatus = () => {
     const sectionPokemon = createDisplay(pokemonInfo)
     pokedex.appendChild(sectionPokemon);
   });
+  selectUl.innerHTML = '';
+};
+
+// Função que retorna o valor do select 
+const typePokemonValue = () => {
+  return selectType.options[selectType.selectedIndex].value;
+};
+
+// Função que cria os tipos selecionar abaixo do select
+const createSelectItem = (typePokemon) => {
+  const type = document.createElement('li');
+  type.innerText = typePokemon;
+  type.classList.add('type-item');
+  type.classList.add(`${typePokemon}`);
+  selectUl.appendChild(type);
+};
+
+// Função que filtra os pokemon por tipo
+const filterTypes = async (event) => {
+  event.preventDefault();
+  const typePokemon = typePokemonValue();
+  const array = getAllInfoFromPage();
+  pokedex.innerHTML = '';
+  const arraySortFilter = array.filter((element) => element.type.includes(typePokemon));
+  arraySortFilter.forEach((element) => {
+    const pokemon = createDisplayAfterButton(element)
+    pokedex.appendChild(pokemon);
+  });
+  selectType.value = '';
+  createSelectItem(typePokemon);
 };
 
 window.onload = async () => {
   loadingPage();
   nameButton.addEventListener('click', nameSort);
   idButton.addEventListener('click', idSort);
-  title.addEventListener('click', inicialStatus);
+  homeButton.addEventListener('click', inicialStatus);
+  selectType.addEventListener('change', filterTypes);
+  selectUl.addEventListener('click', inicialStatus);
 };

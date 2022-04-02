@@ -48,7 +48,7 @@ h1 {
 #button-section, h4 {
   background-color: #bee0df;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
 }
 
@@ -58,7 +58,7 @@ h4 {
 }
 
 #button-section {
-  height: 60px;
+  height: 80px;
 }
 
 button {
@@ -84,6 +84,12 @@ button {
   width: 45px;
   margin-top: 10px;
   list-style-type: none; 
+}
+
+.type-item-ul {
+  display: flex;
+  text-align: center;
+  justify-content: space-evenly;
 }
 
 .fire {

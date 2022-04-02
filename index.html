@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pokedex</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/4b098d9a3e.js" crossorigin="anonymous"></script>
   </head>
   <body>
     <header>
@@ -15,9 +16,42 @@
     </header>
     <h4>Região Kanto</h4>
     <section id="button-section">
-      <label>Ordenar por:</label>
-      <button id="name-button">Nome</button>
-      <button id="id-button">ID</button>
+      <button id="home">
+        <i class="fa-solid fa-house-chimney"></i>
+      </button>
+
+      <div>
+        <label>Ordenar por:</label>
+        <button id="name-button">Nome</button>
+        <button id="id-button">ID</button>
+      </div>
+      
+      <div>
+        <label>Selecionar tipos:</label>
+        <select id="type">
+          <!-- Selecionar default para a opção selected proveniente do StackOverflow - link: https://stackoverflow.com/questions/3518002/how-can-i-set-the-default-value-for-an-html-select-element -->
+          <option selected disabled hidden>Escolha um tipo</option>
+          <option value="fire">Fire</option>
+          <option value="grass">Grass</option>
+          <option value="poison">Poison</option>
+          <option value="flying">Flying</option>
+          <option value="water">Water</option>
+          <option value="bug">Bug</option>
+          <option value="normal">Normal</option>
+          <option value="electric">Electric</option>
+          <option value="ground">Ground</option>
+          <option value="fairy">Fairy</option>
+          <option value="fighting">Fighting</option>
+          <option value="psychic">Psychic</option>
+          <option value="rock">Rock</option>
+          <option value="ice">Ice</option>
+          <option value="ghost">Ghost</option>
+          <option value="steel">Steel</option>
+          <option value="dragon">Dragon</option>
+        </select>
+        <ul id="types-selected" class="type-item-ul"></ul>
+      </div>
+      
     </section>
     <main>
       <section id="pokedex"></section>
