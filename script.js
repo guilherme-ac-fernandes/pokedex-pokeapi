@@ -192,6 +192,7 @@ const filterTypes = async (event) => {
 
 window.onload = async () => {
   loadingPage();
+  // Botões e funcionalidades dinâmicas
   nameButton.addEventListener('click', nameSort);
   idButton.addEventListener('click', idSort);
   homeButton.addEventListener('click', inicialStatus);
