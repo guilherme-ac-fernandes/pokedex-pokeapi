@@ -4,6 +4,7 @@ const nameButton = document.querySelector('#name-button');
 const idButton = document.querySelector('#id-button');
 const homeButton = document.querySelector('#home');
 const selectType = document.querySelector('#type');
+const alertSection = document.querySelector('#alert');
 const selectUl = document.querySelector('#types-selected');
 const pokedexFirstGen = ['Bulbasaur','Ivysaur','Venusaur','Charmander','Charmeleon','Charizard','Squirtle','Wartortle','Blastoise','Caterpie','Metapod','Butterfree','Weedle','Kakuna','Beedrill','Pidgey','Pidgeotto','Pidgeot','Rattata','Raticate','Spearow','Fearow','Ekans','Arbok','Pikachu','Raichu','Sandshrew','Sandslash','Nidoran-f','Nidorina','Nidoqueen','nidoran-m','Nidorino','Nidoking','Clefairy','Clefable','Vulpix','Ninetales','Jigglypuff','Wigglytuff','Zubat','Golbat','Oddish','Gloom','Vileplume','Paras','Parasect','Venonat','Venomoth','Diglett','Dugtrio','Meowth','Persian','Psyduck','Golduck','Mankey','Primeape','Growlithe','Arcanine','Poliwag','Poliwhirl','Poliwrath','Abra','Kadabra','Alakazam','Machop','Machoke','Machamp','Bellsprout','Weepinbell','Victreebel','Tentacool','Tentacruel','Geodude','Graveler','Golem','Ponyta','Rapidash','Slowpoke','Slowbro','Magnemite','Magneton','Farfetchd','Doduo','Dodrio','Seel','Dewgong','Grimer','Muk','Shellder','Cloyster','Gastly','Haunter','Gengar','Onix','Drowzee','Hypno','Krabby','Kingler','Voltorb','Electrode','Exeggcute','Exeggutor','Cubone','Marowak','Hitmonlee','Hitmonchan','Lickitung','Koffing','Weezing','Rhyhorn','Rhydon','Chansey','Tangela','Kangaskhan','Horsea','Seadra','Goldeen','Seaking','Staryu','Starmie','Scyther','Jynx','Electabuzz','Magmar','Pinsir','Tauros','Magikarp','Gyarados','Lapras','Ditto','Eevee','Vaporeon','Jolteon','Flareon','Porygon','Omanyte','Omastar','Kabuto','Kabutops','Aerodactyl','Snorlax','Articuno','Zapdos','Moltres','Dratini','Dragonair','Dragonite','Mewtwo','Mew', 'Mr-mime'];
 
@@ -156,6 +157,7 @@ const idSort = (event) => {
 
 // Função para retornar pokemon com ordem aleatória
 const inicialStatus = () => {
+  alertSection.innerHTML = '';
   pokedex.innerHTML = '';
   pokedexFirstGen.forEach(async (pokemon) => {
     const pokemonLower = pokemon.toLowerCase();
@@ -173,11 +175,23 @@ const typePokemonValue = () => {
 
 // Função que cria os tipos selecionar abaixo do select
 const createSelectItem = (typePokemon) => {
-  const type = document.createElement('li');
-  type.innerText = stringChange(typePokemon);
-  type.classList.add('type-ul');
-  type.classList.add(`${typePokemon}`);
-  selectUl.appendChild(type);
+  if (selectUl.childNodes.length < 2) {
+    const type = document.createElement('li');
+    type.innerText = stringChange(typePokemon);
+    type.classList.add('type-ul');
+    type.classList.add(`${typePokemon}`);
+    selectUl.appendChild(type);
+  };
+};
+
+// Função para mostrar mensagem de alerta se não houver pokemon dos tipos selecionados
+const alertMessage = (local) => {
+  if (local.length === 0) {
+    alertSection.innerHTML = '';
+    const paragraph = document.createElement('p');
+    paragraph.innerText = 'Não consta Pokemon nos tipos selecionados!';
+    alertSection.appendChild(paragraph);
+  };
 };
 
 // Função que filtra os pokemon por tipo
@@ -193,6 +207,7 @@ const filterTypes = async (event) => {
   });
   selectType.value = '';
   createSelectItem(typePokemon);
+  alertMessage(arraySortFilter);
 };
 
 window.onload = async () => {
