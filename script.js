@@ -175,7 +175,7 @@ const typePokemonValue = () => {
 
 // Função que cria os tipos selecionar abaixo do select
 const createSelectItem = (typePokemon) => {
-  if (selectUl.childNodes.length < 2) {
+  if (selectUl.childNodes.length < 3) {
     const type = document.createElement('li');
     type.innerText = stringChange(typePokemon);
     type.classList.add('type-ul');
