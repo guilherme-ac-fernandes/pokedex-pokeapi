@@ -6,7 +6,6 @@
 
 :point_right: **Acessar:** _[Clique Aqui](https://guilherme-ac-fernandes.github.io/pokedex-pokeapi/)_
 
-#### Demostração
 <p align="center">
   <img src="https://static.wikia.nocookie.net/pokemon/images/9/95/Kanto_Pokémon.png/revision/latest?cb=20190718185033" alt="Imagem de Pokemon"/>
 </p>
